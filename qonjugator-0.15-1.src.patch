@@ -1,0 +1,141 @@
+--- origsrc/qonjugator-0.15/CMakeLists.txt	2009-08-12 08:28:05.000000000 -0500
++++ src/qonjugator-0.15/CMakeLists.txt	2009-09-24 19:01:32.641932800 -0500
+@@ -31,4 +31,4 @@ add_subdirectory(qonjugatorplugin_fr)
+ add_subdirectory(qonjugatorplugin_it)
+ 
+ find_package(KDE4 REQUIRED)
+-add_subdirectory(plasma-applet-qonjugator)
++macro_optional_add_subdirectory(plasma-applet-qonjugator)
+--- origsrc/qonjugator-0.15/qonjugatorcli/ConfigureCustom.cmake	2009-07-07 03:03:35.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorcli/ConfigureCustom.cmake	2009-09-24 18:49:04.433000300 -0500
+@@ -11,7 +11,7 @@ set(CMAKE_INSTALL_PREFIX /usr)
+ set(QONJUGATOR_INCLUDES ${CMAKE_INSTALL_PREFIX}/include/qonjugator)
+ 
+ # Compiler flags determining how to link to the library
+-set(QONJUGATOR_LIBRARIES -L${CMAKE_INSTALL_PREFIX}/lib -lqonjugatorcore)
++set(QONJUGATOR_LIBRARIES qonjugatorcore)
+ 
+ # Path where the plugin will be installed
+ set(QONJUGATOR_PLUGINSDIR ${CMAKE_INSTALL_PREFIX}/lib/qonjugatorplugins)
+--- origsrc/qonjugator-0.15/qonjugatorgui/CMakeLists.txt	2009-08-18 16:45:02.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorgui/CMakeLists.txt	2009-09-24 18:53:42.282245800 -0500
+@@ -13,6 +13,7 @@ include(../ConfigureDefaults.cmake)
+ find_package(QonjugatorLib REQUIRED)
+ add_definitions(-DQT_NO_DEBUG -DQT_SHARED)
+ include_directories(${QONJUGATOR_INCLUDES})
++include_directories(${CMAKE_CURRENT_BINARY_DIR})
+ 
+ include_directories(.)
+ add_definitions(-DAPPNAME=\"Qonjugator\" -DAPPVERSION=\"0.15\")
+--- origsrc/qonjugator-0.15/qonjugatorgui/ConfigureCustom.cmake	2009-07-07 03:03:15.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorgui/ConfigureCustom.cmake	2009-09-24 18:49:14.256900400 -0500
+@@ -11,7 +11,7 @@ set(CMAKE_INSTALL_PREFIX /usr)
+ set(QONJUGATOR_INCLUDES ${CMAKE_INSTALL_PREFIX}/include/qonjugator)
+ 
+ # Compiler flags determining how to link to the library
+-set(QONJUGATOR_LIBRARIES -L${CMAKE_INSTALL_PREFIX}/lib -lqonjugatorcore)
++set(QONJUGATOR_LIBRARIES qonjugatorcore)
+ 
+ # Path where the plugin will be installed
+ set(QONJUGATOR_PLUGINSDIR ${CMAKE_INSTALL_PREFIX}/lib/qonjugatorplugins)
+--- origsrc/qonjugator-0.15/qonjugatorlib/CMakeLists.txt	2009-07-07 02:55:52.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorlib/CMakeLists.txt	2009-09-24 18:45:41.664902100 -0500
+@@ -37,7 +37,9 @@ target_link_libraries(qonjugatorcore
+ 
+ ### install
+ install(TARGETS qonjugatorcore
+-        LIBRARY DESTINATION ${QONJUGATOR_LIBDIR})
++        LIBRARY DESTINATION ${QONJUGATOR_LIBDIR}
++        RUNTIME DESTINATION ${QONJUGATOR_BINDIR}
++        ARCHIVE DESTINATION ${QONJUGATOR_LIBDIR})
+ install(FILES qonjugatorcontroller.h qonjugatorplugin.h qonjugatortense.h
+         DESTINATION ${QONJUGATOR_INCLUDESDIR})
+ install(FILES FindQonjugatorLib.cmake
+--- origsrc/qonjugator-0.15/qonjugatorplugin_es/CMakeLists.txt	2009-07-07 02:36:15.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorplugin_es/CMakeLists.txt	2009-09-24 18:50:22.426692000 -0500
+@@ -34,7 +34,7 @@ qt4_add_translation(qonjugatorplugin_es_
+                     qonjugatorplugin_es_fr.ts)
+ 
+ add_library(qonjugatorplugin_es
+-            SHARED
++            MODULE
+             ${qonjugatorplugin_es_SRCS}
+             ${qonjugatorplugin_es_MOC_SRCS}
+             ${qonjugatorplugin_es_RSRCS}
+--- origsrc/qonjugator-0.15/qonjugatorplugin_es/ConfigureCustom.cmake	2009-07-07 03:02:08.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorplugin_es/ConfigureCustom.cmake	2009-09-24 18:49:17.705703100 -0500
+@@ -11,7 +11,7 @@ set(CMAKE_INSTALL_PREFIX /usr)
+ set(QONJUGATOR_INCLUDES ${CMAKE_INSTALL_PREFIX}/include/qonjugator)
+ 
+ # Compiler flags determining how to link to the library
+-set(QONJUGATOR_LIBRARIES -L${CMAKE_INSTALL_PREFIX}/lib -lqonjugatorcore)
++set(QONJUGATOR_LIBRARIES qonjugatorcore)
+ 
+ # Path where the plugin will be installed
+ set(QONJUGATOR_PLUGINSDIR ${CMAKE_INSTALL_PREFIX}/lib/qonjugatorplugins)
+--- origsrc/qonjugator-0.15/qonjugatorplugin_fr/CMakeLists.txt	2009-07-07 03:02:52.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorplugin_fr/CMakeLists.txt	2009-09-24 18:50:30.635567500 -0500
+@@ -35,7 +35,7 @@ qt4_add_translation(qonjugatorplugin_fr_
+                     qonjugatorplugin_fr_fr.ts)
+ 
+ add_library(qonjugatorplugin_fr
+-            SHARED
++            MODULE
+             ${qonjugatorplugin_fr_SRCS}
+             ${qonjugatorplugin_fr_MOC_SRCS}
+             ${qonjugatorplugin_fr_RSRCS}
+--- origsrc/qonjugator-0.15/qonjugatorplugin_fr/ConfigureCustom.cmake	2009-07-07 03:01:18.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorplugin_fr/ConfigureCustom.cmake	2009-09-24 18:49:22.345774000 -0500
+@@ -11,7 +11,7 @@ set(CMAKE_INSTALL_PREFIX /usr)
+ set(QONJUGATOR_INCLUDES ${CMAKE_INSTALL_PREFIX}/include/qonjugator)
+ 
+ # Compiler flags determining how to link to the library
+-set(QONJUGATOR_LIBRARIES -L${CMAKE_INSTALL_PREFIX}/lib -lqonjugatorcore)
++set(QONJUGATOR_LIBRARIES qonjugatorcore)
+ 
+ # Path where the plugin will be installed
+ set(QONJUGATOR_PLUGINSDIR ${CMAKE_INSTALL_PREFIX}/lib/qonjugatorplugins)
+--- origsrc/qonjugator-0.15/qonjugatorplugin_it/CMakeLists.txt	2009-08-12 07:52:24.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorplugin_it/CMakeLists.txt	2009-09-24 18:50:34.651878800 -0500
+@@ -35,7 +35,7 @@ qt4_add_translation(qonjugatorplugin_it_
+                     qonjugatorplugin_it_fr.ts)
+ 
+ add_library(qonjugatorplugin_it
+-            SHARED
++            MODULE
+             ${qonjugatorplugin_it_SRCS}
+             ${qonjugatorplugin_it_MOC_SRCS}
+             ${qonjugatorplugin_it_RSRCS}
+--- origsrc/qonjugator-0.15/qonjugatorplugin_it/ConfigureCustom.cmake	2009-08-12 07:48:35.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorplugin_it/ConfigureCustom.cmake	2009-09-24 18:49:28.073361500 -0500
+@@ -11,7 +11,7 @@ set(CMAKE_INSTALL_PREFIX /usr)
+ set(QONJUGATOR_INCLUDES ${CMAKE_INSTALL_PREFIX}/include/qonjugator)
+ 
+ # Compiler flags determining how to link to the library
+-set(QONJUGATOR_LIBRARIES -L${CMAKE_INSTALL_PREFIX}/lib -lqonjugatorcore)
++set(QONJUGATOR_LIBRARIES qonjugatorcore)
+ 
+ # Path where the plugin will be installed
+ set(QONJUGATOR_PLUGINSDIR ${CMAKE_INSTALL_PREFIX}/lib/qonjugatorplugins)
+--- origsrc/qonjugator-0.15/qonjugatorplugin_tmp/CMakeLists.txt	2009-07-07 02:37:02.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorplugin_tmp/CMakeLists.txt	2009-09-24 18:50:38.419436400 -0500
+@@ -33,7 +33,7 @@ qt4_add_translation(qonjugatorplugin_tmp
+                     qonjugatorplugin_tmp_fr.ts)
+ 
+ add_library(qonjugatorplugin_tmp
+-            SHARED
++            MODULE
+             ${qonjugatorplugin_tmp_SRCS}
+             ${qonjugatorplugin_tmp_MOC_SRCS}
+             ${qonjugatorplugin_tmp_RSRCS}
+--- origsrc/qonjugator-0.15/qonjugatorplugin_tmp/ConfigureCustom.cmake	2009-07-07 03:02:11.000000000 -0500
++++ src/qonjugator-0.15/qonjugatorplugin_tmp/ConfigureCustom.cmake	2009-09-24 18:49:32.144673700 -0500
+@@ -11,7 +11,7 @@ set(CMAKE_INSTALL_PREFIX /usr)
+ set(QONJUGATOR_INCLUDES ${CMAKE_INSTALL_PREFIX}/include/qonjugator)
+ 
+ # Compiler flags determining how to link to the library
+-set(QONJUGATOR_LIBRARIES -L${CMAKE_INSTALL_PREFIX}/lib -lqonjugatorcore)
++set(QONJUGATOR_LIBRARIES qonjugatorcore)
+ 
+ # Path where the plugin will be installed
+ set(QONJUGATOR_PLUGINSDIR ${CMAKE_INSTALL_PREFIX}/lib/qonjugatorplugins)

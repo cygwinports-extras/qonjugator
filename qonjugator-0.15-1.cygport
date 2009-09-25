@@ -1,0 +1,6 @@
+inherit kde4
+
+HOMEPAGE="http://qt-apps.org/content/show.php/Qonjugator?content=112575"
+SRC_URI="http://qt-apps.org/CONTENT/content-files/112575-${P}.tar.bz2"
+
+DO_NOT_COMPILE="plasma-applet-qonjugator"
